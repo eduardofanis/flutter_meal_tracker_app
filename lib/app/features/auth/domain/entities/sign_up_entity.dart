@@ -3,12 +3,12 @@ abstract class SignUpEntity {
   final String name;
   final String email;
   final String password;
-  final String repeatPassword;
+  final String repeatedPassword;
 
   SignUpEntity({
     required this.name,
     required this.email,
     required this.password,
-    required this.repeatPassword,
+    required this.repeatedPassword,
   });
 }
