@@ -10,12 +10,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>((event, emit) async {
       emit(const LoadingState());
       if (event is SignInEvent) {
-        final newState = await repository.signIn(event.signInCredentials);
+        final newState = await repository.signIn(event.credentials);
         emit(newState);
       }
 
       if (event is SignUpEvent) {
-        final newState = await repository.signUp(event.signUpCredentials);
+        final newState = await repository.signUp(event.credentials);
         emit(newState);
       }
 

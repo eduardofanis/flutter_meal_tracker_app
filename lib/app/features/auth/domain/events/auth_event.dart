@@ -1,18 +1,18 @@
-import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/sign_in_entity.dart';
-import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/sign_up_entity.dart';
+import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/sign_in_credentials_entity.dart';
+import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/sign_up_credentials_entity.dart';
 
 abstract class AuthEvent {}
 
 class SignInEvent implements AuthEvent {
-  final SignInEntity signInCredentials;
+  final SignInCredentialsEntity credentials;
 
-  SignInEvent(this.signInCredentials);
+  SignInEvent(this.credentials);
 }
 
 class SignUpEvent implements AuthEvent {
-  final SignUpEntity signUpCredentials;
+  final SignUpCredentialsEntity credentials;
 
-  SignUpEvent(this.signUpCredentials);
+  SignUpEvent(this.credentials);
 }
 
 class SignOutEvent implements AuthEvent {}

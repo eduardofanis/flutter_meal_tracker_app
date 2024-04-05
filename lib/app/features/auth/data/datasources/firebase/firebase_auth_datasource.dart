@@ -3,14 +3,14 @@ import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/user_
 
 class FirebaseAuthDatasource implements AuthDatasource {
   @override
-  Future<User> signIn(String email, String password) async {
+  Future<UserEntity> signIn(String email, String password) async {
     print(email);
     print(password);
     throw UnimplementedError();
   }
 
   @override
-  Future<User> signUp(String name, String email, String password) async {
+  Future<UserEntity> signUp(String name, String email, String password) async {
     throw UnimplementedError();
   }
 }

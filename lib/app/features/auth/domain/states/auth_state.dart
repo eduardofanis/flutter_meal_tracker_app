@@ -8,7 +8,7 @@ class IdleState implements AuthState {
 }
 
 class SignedInState implements AuthState {
-  final User user;
+  final UserEntity user;
   const SignedInState(this.user);
 }
 

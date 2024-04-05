@@ -1,8 +1,8 @@
-abstract class SignInEntity {
+abstract class SignInCredentialsEntity {
   final String email;
   final String password;
 
-  SignInEntity({
+  SignInCredentialsEntity({
     required this.email,
     required this.password,
   });

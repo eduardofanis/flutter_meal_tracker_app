@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_meal_tracker_app/app/features/auth/data/models/sign_in_credentials_model.dart';
+import 'package:flutter_meal_tracker_app/app/features/auth/data/models/sign_up_credentials_model.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/blocs/auth_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/events/auth_event.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:string_validator/string_validator.dart' as validator;
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController repeatedPasswordController = TextEditingController();
 
   final authBloc = Modular.get<AuthBloc>();
 
@@ -29,12 +31,28 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sign In Page"),
+        title: const Text("Sign Up Page"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
+            TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: nameController,
+              validator: (name) {
+                if (name!.isEmpty) {
+                  return "Name field is necessary.";
+                }
+
+                return null;
+              },
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), label: Text("Name")),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               controller: emailController,
@@ -73,17 +91,43 @@ class _SignInPageState extends State<SignInPage> {
             const SizedBox(
               height: 8,
             ),
-            ElevatedButton(
-              onPressed: () {
-                authBloc.add(SignInEvent(SignInCredentialsModel(
-                    email: emailController.text,
-                    password: passwordController.text)));
-              },
-              child: const Text("Sign In"),
+            TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                controller: repeatedPasswordController,
+                validator: (password) {
+                  if (password!.isEmpty) {
+                    return "Password field is necessary.";
+                  }
+
+                  if (password.length < 6) {
+                    return "The minimum password length is 6.";
+                  }
+
+                  if (password != passwordController.text) {
+                    return "The passwords don't match.";
+                  }
+
+                  return null;
+                },
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    label: Text("Confirm password"))),
+            const SizedBox(
+              height: 8,
             ),
+            ElevatedButton(
+                onPressed: () {
+                  authBloc.add(SignUpEvent(SignUpCredentialsModel(
+                    name: nameController.text,
+                    email: emailController.text,
+                    password: passwordController.text,
+                    repeatedPassword: repeatedPasswordController.text,
+                  )));
+                },
+                child: const Text("Sign Up")),
             TextButton(
-                onPressed: () => Modular.to.navigate("/signup"),
-                child: const Text("Go to Sign Up"))
+                onPressed: () => Modular.to.navigate("/"),
+                child: const Text("Go to Sign In"))
           ],
         ),
       ),

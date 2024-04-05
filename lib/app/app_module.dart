@@ -4,6 +4,7 @@ import 'package:flutter_meal_tracker_app/app/features/auth/data/repositories/aut
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/blocs/auth_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/ui/sign_in_page.dart';
+import 'package:flutter_meal_tracker_app/app/features/auth/ui/sign_up_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppModule extends Module {
@@ -17,5 +18,6 @@ class AppModule extends Module {
   @override
   void routes(r) {
     r.child("/", child: (context) => const SignInPage());
+    r.child("/signup", child: (context) => const SignUpPage());
   }
 }
