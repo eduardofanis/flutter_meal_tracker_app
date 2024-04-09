@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/data/models/sign_in_credentials_model.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/blocs/auth_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/events/auth_event.dart';
+import 'package:flutter_meal_tracker_app/app/features/auth/domain/states/auth_state.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:string_validator/string_validator.dart' as validator;
 
@@ -73,14 +74,22 @@ class _SignInPageState extends State<SignInPage> {
             const SizedBox(
               height: 8,
             ),
-            ElevatedButton(
-              onPressed: () {
-                authBloc.add(SignInEvent(SignInCredentialsModel(
-                    email: emailController.text,
-                    password: passwordController.text)));
-              },
-              child: const Text("Sign In"),
-            ),
+            StreamBuilder<AuthState>(
+                stream: authBloc.stream,
+                builder: (context, snapshot) {
+                  final state = snapshot.data;
+
+                  if (state is LoadingState) {}
+
+                  return ElevatedButton(
+                    onPressed: () {
+                      authBloc.add(SignInEvent(SignInCredentialsModel(
+                          email: emailController.text,
+                          password: passwordController.text)));
+                    },
+                    child: const Text("Sign In"),
+                  );
+                }),
             TextButton(
                 onPressed: () => Modular.to.navigate("/signup"),
                 child: const Text("Go to Sign Up"))

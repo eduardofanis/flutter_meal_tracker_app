@@ -13,4 +13,9 @@ class FirebaseAuthDatasource implements AuthDatasource {
   Future<UserEntity> signUp(String name, String email, String password) async {
     throw UnimplementedError();
   }
+
+  @override
+  Future<UserEntity> checkAuthState(String token) {
+    throw UnimplementedError();
+  }
 }

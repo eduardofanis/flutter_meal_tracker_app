@@ -7,22 +7,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository repository;
 
   AuthBloc(this.repository) : super(const IdleState()) {
-    on<AuthEvent>((event, emit) async {
-      emit(const LoadingState());
-      if (event is SignInEvent) {
-        final newState = await repository.signIn(event.credentials);
-        emit(newState);
-      }
+    on<SignInEvent>((event, emit) async {
+      final newState = await repository.signIn(event.credentials);
+      emit(newState);
+    });
 
-      if (event is SignUpEvent) {
-        final newState = await repository.signUp(event.credentials);
-        emit(newState);
-      }
+    on<SignUpEvent>((event, emit) async {
+      final newState = await repository.signUp(event.credentials);
+      emit(newState);
+    });
 
-      if (event is SignOutEvent) {
-        final newState = await repository.signOut();
-        emit(newState);
-      }
+    on<SignOutEvent>((event, emit) async {
+      final newState = await repository.signOut();
+      emit(newState);
+    });
+
+    on<CheckAuthStateEvent>((event, emit) async {
+      final newState = await repository.checkAuthState(event.token);
+      emit(newState);
     });
   }
 }
