@@ -4,11 +4,14 @@ import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/sign_
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/errors/auth_errors.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/states/auth_state.dart';
+import 'package:flutter_meal_tracker_app/app/features/storage/data/datasources/storage_datasource.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDatasource datasource;
+  final StorageDatasource storage;
 
-  AuthRepositoryImpl(this.datasource);
+  AuthRepositoryImpl(this.datasource, this.storage);
 
   @override
   Future<AuthState> signIn(SignInCredentialsEntity credentials) async {
@@ -18,6 +21,12 @@ class AuthRepositoryImpl implements AuthRepository {
       }
       final user =
           await datasource.signIn(credentials.email, credentials.password);
+
+      await storage.write("accessToken", user.accessToken);
+      await storage.write("refreshToken", user.refreshToken);
+
+      Modular.to.navigate("/");
+
       return SignedInState(user);
     } catch (e) {
       return ErrorState(InternalError());
@@ -32,6 +41,12 @@ class AuthRepositoryImpl implements AuthRepository {
       }
       final user = await datasource.signUp(
           credentials.name, credentials.email, credentials.password);
+
+      Modular.to.navigate("/");
+
+      await storage.write("accessToken", user.accessToken);
+      await storage.write("refreshToken", user.refreshToken);
+
       return SignedInState(user);
     } catch (e) {
       return ErrorState(InternalError());
@@ -39,12 +54,24 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<AuthState> signOut() {
-    throw UnimplementedError();
+  Future<AuthState> signOut() async {
+    try {
+      return SignedOutState();
+    } catch (e) {
+      return ErrorState(InternalError());
+    }
   }
 
   @override
-  Future<AuthState> checkAuthState(String token) {
-    throw UnimplementedError();
+  Future<AuthState> validateSession(
+      String accessToken, String refreshToken) async {
+    try {
+      final checkedUser =
+          await datasource.validateSession(accessToken, refreshToken);
+
+      return SignedInState(checkedUser);
+    } catch (e) {
+      return ErrorState(InternalError());
+    }
   }
 }

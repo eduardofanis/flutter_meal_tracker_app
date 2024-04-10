@@ -15,10 +15,11 @@ class SignUpEvent implements AuthEvent {
   SignUpEvent(this.credentials);
 }
 
-class CheckAuthStateEvent implements AuthEvent {
-  final String token;
+class ValidateSessionEvent implements AuthEvent {
+  final String accessToken;
+  final String refreshToken;
 
-  CheckAuthStateEvent(this.token);
+  ValidateSessionEvent(this.accessToken, this.refreshToken);
 }
 
 class SignOutEvent implements AuthEvent {}

@@ -1,4 +1,5 @@
 import 'package:flutter_meal_tracker_app/app/features/auth/data/datasources/auth_datasource.dart';
+import 'package:flutter_meal_tracker_app/app/features/auth/data/models/user_model.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/user_entity.dart';
 
 class FirebaseAuthDatasource implements AuthDatasource {
@@ -6,7 +7,7 @@ class FirebaseAuthDatasource implements AuthDatasource {
   Future<UserEntity> signIn(String email, String password) async {
     print(email);
     print(password);
-    throw UnimplementedError();
+    return UserModel(name: "", email: email, accessToken: "", refreshToken: "");
   }
 
   @override
@@ -15,7 +16,7 @@ class FirebaseAuthDatasource implements AuthDatasource {
   }
 
   @override
-  Future<UserEntity> checkAuthState(String token) {
+  Future<UserEntity> validateSession(String accessToken, String refreshToken) {
     throw UnimplementedError();
   }
 }

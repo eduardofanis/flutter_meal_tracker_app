@@ -4,7 +4,7 @@ class UserModel extends UserEntity {
   UserModel({
     required super.name,
     required super.email,
-    super.accessToken,
-    super.refreshToken,
+    required super.accessToken,
+    required super.refreshToken,
   });
 }

@@ -6,4 +6,6 @@ class InvalidCredentials implements Failure {
   InvalidCredentials(this.message);
 }
 
+class InvalidToken implements Failure {}
+
 class InternalError implements Failure {}

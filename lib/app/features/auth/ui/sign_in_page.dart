@@ -82,7 +82,7 @@ class _SignInPageState extends State<SignInPage> {
                   if (state is LoadingState) {}
 
                   return ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       authBloc.add(SignInEvent(SignInCredentialsModel(
                           email: emailController.text,
                           password: passwordController.text)));

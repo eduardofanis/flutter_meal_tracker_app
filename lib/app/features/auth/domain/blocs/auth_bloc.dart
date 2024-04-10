@@ -22,8 +22,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(newState);
     });
 
-    on<CheckAuthStateEvent>((event, emit) async {
-      final newState = await repository.checkAuthState(event.token);
+    on<ValidateSessionEvent>((event, emit) async {
+      final newState = await repository.validateSession(
+          event.accessToken, event.refreshToken);
       emit(newState);
     });
   }
