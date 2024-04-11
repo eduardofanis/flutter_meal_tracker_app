@@ -16,8 +16,8 @@ class SignUpEvent implements AuthEvent {
 }
 
 class ValidateSessionEvent implements AuthEvent {
-  final String accessToken;
-  final String refreshToken;
+  final String? accessToken;
+  final String? refreshToken;
 
   ValidateSessionEvent(this.accessToken, this.refreshToken);
 }

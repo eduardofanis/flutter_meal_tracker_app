@@ -12,11 +12,12 @@ class FirebaseAuthDatasource implements AuthDatasource {
 
   @override
   Future<UserEntity> signUp(String name, String email, String password) async {
-    throw UnimplementedError();
+    return UserModel(name: "", email: email, accessToken: "", refreshToken: "");
   }
 
   @override
-  Future<UserEntity> validateSession(String accessToken, String refreshToken) {
-    throw UnimplementedError();
+  Future<UserEntity> validateSession(
+      String accessToken, String refreshToken) async {
+    return UserModel(name: "", email: "", accessToken: "", refreshToken: "");
   }
 }

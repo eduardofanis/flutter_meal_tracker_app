@@ -1,3 +1,4 @@
+import 'package:flutter_meal_tracker_app/app/core/utils/snackbar_message.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/sign_in_credentials_entity.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/sign_up_credentials_entity.dart';
@@ -12,6 +13,8 @@ class AuthRepositoryImpl implements AuthRepository {
   final StorageDatasource storage;
 
   AuthRepositoryImpl(this.datasource, this.storage);
+
+  final snackBarMesssage = SnackBarMessage();
 
   @override
   Future<AuthState> signIn(SignInCredentialsEntity credentials) async {
@@ -29,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return SignedInState(user);
     } catch (e) {
-      return ErrorState(InternalError());
+      return ErrorState(InternalError("Error trying sign in"));
     }
   }
 
@@ -49,29 +52,35 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return SignedInState(user);
     } catch (e) {
-      return ErrorState(InternalError());
+      return ErrorState(InternalError("Error trying sign up"));
     }
   }
 
   @override
   Future<AuthState> signOut() async {
     try {
+      await storage.delete("accessToken");
+      await storage.delete("refreshToken");
+
       return SignedOutState();
     } catch (e) {
-      return ErrorState(InternalError());
+      return ErrorState(InternalError("Error trying sign out"));
     }
   }
 
   @override
   Future<AuthState> validateSession(
-      String accessToken, String refreshToken) async {
+      String? accessToken, String? refreshToken) async {
     try {
-      final checkedUser =
-          await datasource.validateSession(accessToken, refreshToken);
+      if (accessToken != null && refreshToken != null) {
+        final checkedUser =
+            await datasource.validateSession(accessToken, refreshToken);
 
-      return SignedInState(checkedUser);
+        return SignedInState(checkedUser);
+      }
+      return SignedOutState();
     } catch (e) {
-      return ErrorState(InternalError());
+      return ErrorState(InternalError("Error trying validate session"));
     }
   }
 }

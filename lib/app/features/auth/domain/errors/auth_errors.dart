@@ -1,11 +1,17 @@
-abstract class Failure implements Exception {}
+abstract class Failure implements Exception {
+  final String message;
 
-class InvalidCredentials implements Failure {
-  final String? message;
-
-  InvalidCredentials(this.message);
+  Failure(this.message);
 }
 
-class InvalidToken implements Failure {}
+class InvalidCredentials extends Failure {
+  InvalidCredentials(super.message);
+}
 
-class InternalError implements Failure {}
+class InvalidToken extends Failure {
+  InvalidToken(super.message);
+}
+
+class InternalError extends Failure {
+  InternalError(super.message);
+}

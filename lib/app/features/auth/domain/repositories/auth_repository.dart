@@ -5,6 +5,6 @@ import 'package:flutter_meal_tracker_app/app/features/auth/domain/states/auth_st
 abstract class AuthRepository {
   Future<AuthState> signIn(SignInCredentialsEntity credentials);
   Future<AuthState> signUp(SignUpCredentialsEntity credentials);
-  Future<AuthState> validateSession(String accessToken, String refreshToken);
+  Future<AuthState> validateSession(String? accessToken, String? refreshToken);
   Future<AuthState> signOut();
 }

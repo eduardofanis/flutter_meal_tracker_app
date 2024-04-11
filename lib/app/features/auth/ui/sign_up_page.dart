@@ -18,13 +18,18 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController repeatedPasswordController = TextEditingController();
 
+  final form = GlobalKey<FormState>();
+  var _obscurePassword = true;
+  var _obscureRepeatedPassword = true;
   final authBloc = Modular.get<AuthBloc>();
 
   @override
   void dispose() {
     super.dispose();
     emailController.dispose();
+    nameController.dispose();
     passwordController.dispose();
+    repeatedPasswordController.dispose();
   }
 
   @override
@@ -35,100 +40,127 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              controller: nameController,
-              validator: (name) {
-                if (name!.isEmpty) {
-                  return "Name field is necessary.";
-                }
-
-                return null;
-              },
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), label: Text("Name")),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              controller: emailController,
-              validator: (email) {
-                if (email!.isEmpty) {
-                  return "Email field is necessary.";
-                }
-
-                if (!validator.isEmail(email)) {
-                  return "Needs to be a valid email.";
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), label: Text("Email")),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            TextFormField(
+        child: Form(
+          key: form,
+          child: Column(
+            children: [
+              TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                controller: passwordController,
-                validator: (password) {
-                  if (password!.isEmpty) {
-                    return "Password field is necessary.";
+                controller: nameController,
+                validator: (name) {
+                  if (name!.isEmpty) {
+                    return "Name field is necessary.";
                   }
-
-                  if (password.length < 6) {
-                    return "The minimum password length is 6.";
-                  }
-
                   return null;
                 },
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), label: Text("Password"))),
-            const SizedBox(
-              height: 8,
-            ),
-            TextFormField(
+                    border: OutlineInputBorder(), label: Text("Name")),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                controller: repeatedPasswordController,
+                controller: emailController,
+                validator: (email) {
+                  if (email!.isEmpty) {
+                    return "Email field is necessary.";
+                  }
+                  if (!validator.isEmail(email)) {
+                    return "Needs to be a valid email.";
+                  }
+                  return null;
+                },
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), label: Text("Email")),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                controller: passwordController,
+                obscureText: _obscurePassword,
                 validator: (password) {
                   if (password!.isEmpty) {
                     return "Password field is necessary.";
                   }
-
                   if (password.length < 6) {
                     return "The minimum password length is 6.";
                   }
-
+                  return null;
+                },
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      icon: Icon(_obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off)),
+                  border: const OutlineInputBorder(),
+                  label: const Text("Password"),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                controller: repeatedPasswordController,
+                obscureText: _obscureRepeatedPassword,
+                validator: (password) {
+                  if (password!.isEmpty) {
+                    return "Password field is necessary.";
+                  }
+                  if (password.length < 6) {
+                    return "The minimum password length is 6.";
+                  }
                   if (password != passwordController.text) {
                     return "The passwords don't match.";
                   }
-
                   return null;
                 },
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text("Confirm password"))),
-            const SizedBox(
-              height: 8,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  authBloc.add(SignUpEvent(SignUpCredentialsModel(
-                    name: nameController.text,
-                    email: emailController.text,
-                    password: passwordController.text,
-                    repeatedPassword: repeatedPasswordController.text,
-                  )));
-                },
-                child: const Text("Sign Up")),
-            TextButton(
-                onPressed: () => Modular.to.navigate("/"),
-                child: const Text("Go to Sign In"))
-          ],
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscureRepeatedPassword = !_obscureRepeatedPassword;
+                        });
+                      },
+                      icon: Icon(_obscureRepeatedPassword
+                          ? Icons.visibility
+                          : Icons.visibility_off)),
+                  border: const OutlineInputBorder(),
+                  label: const Text("Confirm password"),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    final isValid = form.currentState!.validate();
+
+                    setState(() {});
+
+                    if (isValid) {
+                      authBloc.add(SignUpEvent(SignUpCredentialsModel(
+                        name: nameController.text,
+                        email: emailController.text,
+                        password: passwordController.text,
+                        repeatedPassword: repeatedPasswordController.text,
+                      )));
+                    }
+                  },
+                  child: const Text("Sign Up")),
+              TextButton(
+                  onPressed: () => Modular.to.navigate("/signin"),
+                  child: const Text("Go to Sign In"))
+            ],
+          ),
         ),
       ),
     );

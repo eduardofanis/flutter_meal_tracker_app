@@ -12,7 +12,8 @@ import 'package:mocktail/mocktail.dart';
 class AuthRepositoryMock extends Mock implements AuthRepository {
   @override
   Future<AuthState> signIn(SignInCredentialsEntity credentials) async {
-    final user = UserModel(email: "email", name: "name");
+    final user = UserModel(
+        email: "email", name: "name", accessToken: '', refreshToken: '');
     return Future(() => SignedInState(user));
   }
 }
