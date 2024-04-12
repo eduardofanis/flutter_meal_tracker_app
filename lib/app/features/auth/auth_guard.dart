@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_meal_tracker_app/app/core/utils/snackbar_message.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/blocs/auth_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/states/auth_state.dart';
+import 'package:flutter_meal_tracker_app/app/utils/snackbar_message.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AuthGuard extends StatelessWidget {

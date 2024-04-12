@@ -1,4 +1,3 @@
-import 'package:flutter_meal_tracker_app/app/core/utils/snackbar_message.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/sign_in_credentials_entity.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/entities/sign_up_credentials_entity.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_meal_tracker_app/app/features/auth/domain/errors/auth_er
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/states/auth_state.dart';
 import 'package:flutter_meal_tracker_app/app/features/storage/data/datasources/storage_datasource.dart';
+import 'package:flutter_meal_tracker_app/app/utils/snackbar_message.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AuthRepositoryImpl implements AuthRepository {

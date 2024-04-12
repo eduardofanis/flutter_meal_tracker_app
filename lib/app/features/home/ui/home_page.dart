@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/blocs/auth_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/events/auth_event.dart';
+import 'package:flutter_meal_tracker_app/app/features/goals/ui/goals_page.dart';
 import 'package:flutter_meal_tracker_app/app/features/home/domain/blocs/home_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/home/domain/events/home_event.dart';
 import 'package:flutter_meal_tracker_app/app/features/home/domain/states/home_state.dart';
+import 'package:flutter_meal_tracker_app/app/features/meals/ui/meals_page.dart';
+import 'package:flutter_meal_tracker_app/app/features/recipes/ui/recipes_page.dart';
 import 'package:flutter_meal_tracker_app/app/features/storage/domain/repositories/storage_repository.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -18,19 +21,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final authBloc = Modular.get<AuthBloc>();
   final homeBloc = Modular.get<HomeBloc>();
+  final storage = Modular.get<StorageRepository>();
   late PageController pageController;
+
+  validateSession() async {
+    final accessToken = await storage.read("accessToken");
+    final refreshToken = await storage.read("refreshToken");
+    authBloc.add(ValidateSessionEvent(accessToken, refreshToken));
+  }
 
   @override
   void initState() {
     super.initState();
-
-    (() async {
-      final storage = Modular.get<StorageRepository>();
-      final accessToken = await storage.read("accessToken");
-      final refreshToken = await storage.read("refreshToken");
-      authBloc.add(ValidateSessionEvent(accessToken, refreshToken));
-    });
-
+    validateSession();
     pageController = PageController();
   }
 
@@ -46,23 +49,20 @@ class _HomePageState extends State<HomePage> {
         bloc: homeBloc,
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    authBloc.add(SignOutEvent());
-                  },
-                  icon: const Icon(Icons.logout),
-                ),
-              ],
-            ),
+            appBar: AppBar(),
             body: PageView(
               controller: pageController,
               onPageChanged: (page) {
-                homeBloc.add(PageChangeEvent(page, pageController));
+                homeBloc.add(PageChangeEvent(page));
               },
-              children: const [Text("Home"), Text("Profile")],
+              children: const [
+                Text("Home"),
+                MealsPage(),
+                RecipesPage(),
+                GoalsPage(),
+              ],
             ),
+            drawer: const Drawer(),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: state.page,
               type: BottomNavigationBarType.fixed,
@@ -72,16 +72,29 @@ class _HomePageState extends State<HomePage> {
                   label: "Home",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: "Profile",
+                  icon: Icon(Icons.dinner_dining),
+                  label: "Meals",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.menu_book),
+                  label: "Recipes",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.flag),
+                  label: "Goals",
                 ),
               ],
               onTap: (page) {
-                homeBloc.add(PageChangeEvent(page, pageController));
+                homeBloc.add(PageChangeEvent(page));
+                pageController.animateToPage(page,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.ease);
               },
             ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton(
-              shape: const CircleBorder(),
+              child: const Icon(Icons.add),
               onPressed: () {},
             ),
           );
