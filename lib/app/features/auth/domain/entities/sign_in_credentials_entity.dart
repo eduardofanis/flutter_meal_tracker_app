@@ -6,6 +6,4 @@ abstract class SignInCredentialsEntity {
     required this.email,
     required this.password,
   });
-
-  bool validate();
 }

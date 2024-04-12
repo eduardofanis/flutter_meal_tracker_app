@@ -7,12 +7,4 @@ class SignUpCredentialsModel extends SignUpCredentialsEntity {
     required super.name,
     required super.repeatedPassword,
   });
-
-  bool validate() {
-    if (email.isEmpty) return false;
-    if (name.isEmpty) return false;
-    if (password.isEmpty) return false;
-    if (repeatedPassword.isEmpty) return false;
-    return true;
-  }
 }

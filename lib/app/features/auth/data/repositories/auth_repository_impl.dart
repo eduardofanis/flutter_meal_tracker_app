@@ -19,9 +19,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<AuthState> signIn(SignInCredentialsEntity credentials) async {
     try {
-      if (!credentials.validate()) {
-        return ErrorState(InvalidCredentials(""));
-      }
       final user =
           await datasource.signIn(credentials.email, credentials.password);
 
@@ -39,16 +36,13 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<AuthState> signUp(SignUpCredentialsEntity credentials) async {
     try {
-      if (!credentials.validate()) {
-        return ErrorState(InvalidCredentials(""));
-      }
       final user = await datasource.signUp(
           credentials.name, credentials.email, credentials.password);
 
-      Modular.to.navigate("/");
-
       await storage.write("accessToken", user.accessToken);
       await storage.write("refreshToken", user.refreshToken);
+
+      Modular.to.navigate("/");
 
       return SignedInState(user);
     } catch (e) {

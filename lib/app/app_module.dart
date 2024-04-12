@@ -6,6 +6,7 @@ import 'package:flutter_meal_tracker_app/app/features/auth/domain/blocs/auth_blo
 import 'package:flutter_meal_tracker_app/app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/ui/sign_in_page.dart';
 import 'package:flutter_meal_tracker_app/app/features/auth/ui/sign_up_page.dart';
+import 'package:flutter_meal_tracker_app/app/features/home/domain/blocs/home_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/home/ui/home_page.dart';
 import 'package:flutter_meal_tracker_app/app/features/storage/data/datasources/flutter_secure_storage/flutter_secure_storage_datasource.dart';
 import 'package:flutter_meal_tracker_app/app/features/storage/data/datasources/storage_datasource.dart';
@@ -22,6 +23,10 @@ class AppModule extends Module {
     i.add<StorageRepository>(StorageRepositoryImpl.new);
     i.add<AuthDatasource>(FirebaseAuthDatasource.new);
     i.add<AuthRepository>(AuthRepositoryImpl.new);
+    i.addSingleton<HomeBloc>(HomeBloc.new,
+        config: BindConfig(
+          onDispose: (bloc) => bloc.close(),
+        ));
     i.addSingleton<AuthBloc>(AuthBloc.new,
         config: BindConfig(
           onDispose: (bloc) => bloc.close(),

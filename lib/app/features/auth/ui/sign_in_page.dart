@@ -88,17 +88,20 @@ class _SignInPageState extends State<SignInPage> {
               const SizedBox(
                 height: 8,
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  final isValid = form.currentState!.validate();
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final isValid = form.currentState!.validate();
 
-                  if (isValid) {
-                    authBloc.add(SignInEvent(SignInCredentialsModel(
-                        email: emailController.text,
-                        password: passwordController.text)));
-                  }
-                },
-                child: const Text("Sign In"),
+                    if (isValid) {
+                      authBloc.add(SignInEvent(SignInCredentialsModel(
+                          email: emailController.text,
+                          password: passwordController.text)));
+                    }
+                  },
+                  child: const Text("Sign In"),
+                ),
               ),
               TextButton(
                   onPressed: () => Modular.to.navigate("/signup"),

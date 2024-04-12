@@ -10,6 +10,4 @@ abstract class SignUpCredentialsEntity {
     required this.password,
     required this.repeatedPassword,
   });
-
-  bool validate();
 }
