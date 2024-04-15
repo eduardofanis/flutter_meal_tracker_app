@@ -100,12 +100,14 @@ class _SignInPageState extends State<SignInPage> {
                           password: passwordController.text)));
                     }
                   },
+                  style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder()),
                   child: const Text("Sign In"),
                 ),
               ),
               TextButton(
                   onPressed: () => Modular.to.navigate("/signup"),
-                  child: const Text("Go to Sign Up"))
+                  child: const Text("or Sign Up"))
             ],
           ),
         ),

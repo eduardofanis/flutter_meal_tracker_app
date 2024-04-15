@@ -39,8 +39,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    super.dispose();
     pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,7 +62,20 @@ class _HomePageState extends State<HomePage> {
                 GoalsPage(),
               ],
             ),
-            drawer: const Drawer(),
+            drawer: Drawer(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 80,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        authBloc.add(SignOutEvent());
+                      },
+                      child: const Text("Logout")),
+                ],
+              ),
+            ),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: state.page,
               type: BottomNavigationBarType.fixed,

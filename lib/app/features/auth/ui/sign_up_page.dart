@@ -157,11 +157,13 @@ class _SignUpPageState extends State<SignUpPage> {
                         )));
                       }
                     },
+                    style: ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder()),
                     child: const Text("Sign Up")),
               ),
               TextButton(
                   onPressed: () => Modular.to.navigate("/signin"),
-                  child: const Text("Go to Sign In"))
+                  child: const Text("or Sign In"))
             ],
           ),
         ),
