@@ -4,6 +4,8 @@ import 'package:flutter_meal_tracker_app/app/features/meals/domain/states/meal_l
 
 class MealListBloc extends Bloc<MealListEvent, MealListState> {
   MealListBloc() : super(StartState()) {
-    on((event, emit) => null);
+    on<AddMealEvent>((event, emit) {
+      emit(LoadingState());
+    });
   }
 }

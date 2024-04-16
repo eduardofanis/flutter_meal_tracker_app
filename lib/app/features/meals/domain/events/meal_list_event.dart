@@ -1,15 +1,15 @@
 abstract class MealListEvent {}
 
-class GetMeals implements MealListEvent {
+class GetMealsEvent implements MealListEvent {
   final String? searchText;
 
-  GetMeals(this.searchText);
+  GetMealsEvent(this.searchText);
 }
 
-class AddMeal implements MealListEvent {}
+class AddMealEvent implements MealListEvent {}
 
-class DeleteMeal implements MealListEvent {
+class DeleteMealEvent implements MealListEvent {
   final String id;
 
-  DeleteMeal(this.id);
+  DeleteMealEvent(this.id);
 }

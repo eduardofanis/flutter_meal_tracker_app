@@ -2,14 +2,14 @@ import 'package:flutter_meal_tracker_app/app/features/meals/domain/entities/food
 
 abstract class MealEvent {}
 
-class AddFood implements MealEvent {
+class AddFoodEvent implements MealEvent {
   final FoodEntity food;
 
-  AddFood(this.food);
+  AddFoodEvent(this.food);
 }
 
-class DeleteFood implements MealEvent {
+class DeleteFoodEvent implements MealEvent {
   final String id;
 
-  DeleteFood(this.id);
+  DeleteFoodEvent(this.id);
 }
