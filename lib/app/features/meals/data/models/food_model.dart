@@ -5,5 +5,6 @@ class FoodModel extends FoodEntity {
       {required super.carbohydrates,
       required super.proteins,
       required super.fats,
-      required super.calories});
+      required super.calories,
+      required super.name});
 }

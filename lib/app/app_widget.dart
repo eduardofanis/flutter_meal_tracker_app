@@ -9,7 +9,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp.router(
       title: 'Flutter Meal Tracker',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       routerConfig: Modular.routerConfig,
     );

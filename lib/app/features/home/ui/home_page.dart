@@ -6,7 +6,7 @@ import 'package:flutter_meal_tracker_app/app/features/goals/ui/goals_page.dart';
 import 'package:flutter_meal_tracker_app/app/features/home/domain/blocs/home_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/home/domain/events/home_event.dart';
 import 'package:flutter_meal_tracker_app/app/features/home/domain/states/home_state.dart';
-import 'package:flutter_meal_tracker_app/app/features/meals/ui/meals_page.dart';
+import 'package:flutter_meal_tracker_app/app/features/meals/ui/meal_list_page.dart';
 import 'package:flutter_meal_tracker_app/app/features/recipes/ui/recipes_page.dart';
 import 'package:flutter_meal_tracker_app/app/features/storage/domain/repositories/storage_repository.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
               },
               children: const [
                 Text("Home"),
-                MealsPage(),
+                MealListPage(),
                 RecipesPage(),
                 GoalsPage(),
               ],

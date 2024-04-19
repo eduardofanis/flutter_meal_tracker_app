@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_meal_tracker_app/app/features/meals/domain/blocs/meal_list_bloc.dart';
+import 'package:flutter_meal_tracker_app/app/features/meals/domain/events/meal_list_event.dart';
 import 'package:flutter_meal_tracker_app/app/features/meals/domain/states/meal_list_state.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class MealsPage extends StatefulWidget {
-  const MealsPage({super.key});
+class MealListPage extends StatefulWidget {
+  const MealListPage({super.key});
 
   @override
-  State<MealsPage> createState() => _MealsPageState();
+  State<MealListPage> createState() => _MealListPageState();
 }
 
-class _MealsPageState extends State<MealsPage> {
+class _MealListPageState extends State<MealListPage> {
   final mealListBloc = Modular.get<MealListBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    mealListBloc.add(GetMealsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,10 @@ class _MealsPageState extends State<MealsPage> {
             return ListView.builder(
               itemCount: state.list.length,
               itemBuilder: (context, index) {
-                return const ListTile();
+                return ListTile(
+                  title: Text(state.list[index].name),
+                  trailing: Text(state.list[index].time.format(context)),
+                );
               },
             );
           }

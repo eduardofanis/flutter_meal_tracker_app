@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meal_tracker_app/app/features/meals/data/datasources/meal_list_datasource.dart';
-import 'package:flutter_meal_tracker_app/app/features/meals/data/models/meal_model.dart';
 import 'package:flutter_meal_tracker_app/app/features/meals/domain/entities/food_entity.dart';
-import 'package:flutter_meal_tracker_app/app/features/meals/domain/entities/meal_entity.dart';
 import 'package:flutter_meal_tracker_app/app/features/meals/domain/repositories/meal_list_repository.dart';
+import 'package:flutter_meal_tracker_app/app/features/meals/domain/states/meal_list_state.dart';
 
 class MealListRepositoryImpl implements MealListRepository {
   final MealListDatasource datasource;
@@ -11,25 +10,32 @@ class MealListRepositoryImpl implements MealListRepository {
   MealListRepositoryImpl(this.datasource);
 
   @override
-  Future<List<MealEntity>> addMeal(
-      List<FoodEntity> foods, TimeOfDay time) async {
+  Future<MealListState> addMeal(List<FoodEntity> foods, TimeOfDay time) async {
     try {
-      MealEntity meal = MealModel(foods: [], time: time);
-      return [meal];
+      final list = await datasource.addMeal();
+      return SuccessState(list);
     } catch (e) {
-      throw Exception();
+      return ErrorState();
     }
   }
 
   @override
-  Future<List<MealEntity>> deleteMeal() {
-    // TODO: implement deleteMeal
-    throw UnimplementedError();
+  Future<MealListState> deleteMeal() async {
+    try {
+      final list = await datasource.deleteMeal();
+      return SuccessState(list);
+    } catch (e) {
+      return ErrorState();
+    }
   }
 
   @override
-  Future<List<MealEntity>> getMealList() {
-    // TODO: implement getMealList
-    throw UnimplementedError();
+  Future<MealListState> getMealList() async {
+    try {
+      final list = await datasource.getMealList();
+      return SuccessState(list);
+    } catch (e) {
+      return ErrorState();
+    }
   }
 }
